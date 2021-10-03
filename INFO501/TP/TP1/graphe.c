@@ -11,6 +11,7 @@ fichier=fopen(a,"r");
 int inter;
 int inter_2;
 cellule_t l_cellule[50];
+
 	// Lecture du nb sommet
 	if (fichier!=NULL){
 		//Lecture nb_sommet
@@ -26,6 +27,7 @@ cellule_t l_cellule[50];
 		fscanf(fichier,"%d",&g->value);
 		printf("value:%d",g->value);
 		
+		g->l_adj=malloc(g->nb_sommets * sizeof(cellule_t));
 		
 		// initialisation des n_listes et des n cellules
 		for(int i=0;i<g->nb_sommets;i++){
@@ -41,23 +43,26 @@ cellule_t l_cellule[50];
 
 
 		for(int j=0;j<8;j++){
+		
 			fscanf(fichier,"%d",&inter);
 			fseek(fichier,1,SEEK_CUR);
 			fscanf(fichier,"%d",&inter_2);
 			printf("\n%d,%d\n",inter,inter_2);
-			//inserer_liste((g->l_adj+j),&l_cellule[inter_2]);
+			//Faire le si n'existe pas.
+			inserer_liste((g->l_adj+inter),&l_cellule[inter_2]);
+
 		}
 			
 		
 		
 		
-		
+
 	}
 	else {
 		printf("Erreur lors de l'ouverture du fichier");
 	}
 
-
+		afficher_liste((g->l_adj+inter));
 };
 
 
@@ -69,4 +74,5 @@ int main()
 char c[]="t";
 graphe_t g;
 initialiser_graphe(&g,"graphe1.txt");
+
 }
