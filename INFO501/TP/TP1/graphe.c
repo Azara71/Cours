@@ -10,10 +10,14 @@ FILE *fichier;
 fichier=fopen(a,"r");
 int inter;
 int inter_2;
-cellule_t l_cellule[50];
-
+int liste_current;
+cellule_t l_cellule[12];
+cellule_t try_cellule[5];
+cellule_t tata;
 	// Lecture du nb sommet
 	if (fichier!=NULL){
+		initialiser_cellule(&tata,5);
+		try_cellule[0]=tata;
 		//Lecture nb_sommet
 		fseek(fichier,10,SEEK_SET);
 		fscanf(fichier,"%d",&g->nb_sommets);
@@ -35,34 +39,76 @@ cellule_t l_cellule[50];
 			initialiser_liste((g->l_adj+i));
 			initialiser_cellule(&(l_cellule[i]),i);
 			inserer_liste((g->l_adj+i),&l_cellule[i]);
-			printf("SOMMET:%d",(g->l_adj+i)->tete->id_sommet);	
+			//printf("SOMMET:%d",(g->l_adj+i)->tete->id_sommet);	
+
 		}
 
 		// Placement aux arêtes
-		fseek(fichier,20,SEEK_CUR);
-
-
-		for(int j=0;j<8;j++){
+		fseek(fichier,17,SEEK_CUR);
+		fscanf(fichier,"%d",&liste_current);
+		inter=liste_current;
+		for(int j=0;j<11;j++){
 		
+
+		
+			if(inter==liste_current){
+				
+				fscanf(fichier,"%d",&inter_2);
+				printf("inter2 : %d\n",inter_2);	
+				fseek(fichier,1,SEEK_CUR);
+				fscanf(fichier,"%d",&inter);
+			}
+			else {
+				liste_current=inter;
+				printf("MA CURRENT LISTE EST %d",liste_current);
+			
+			}
+
+
+
+
+		/*
+			fscanf(fichier,"%d",&inter);
+			fseek(fichier,1,SEEK_CUR);
+			fscanf(fichier,"%d",&inter_2);
+			printf("\n%d",inter);
+			printf("%d",inter_2);
+			inserer_liste((g->l_adj+inter),&l_cellule[inter_2]);
+		*/
+		}
+		
+		
+		
+		
+		/*
 			fscanf(fichier,"%d",&inter);
 			fseek(fichier,1,SEEK_CUR);
 			fscanf(fichier,"%d",&inter_2);
 			printf("\n%d,%d\n",inter,inter_2);
-			//Faire le si n'existe pas.
-			inserer_liste((g->l_adj+inter),&l_cellule[inter_2]);
+			printf("CELLULEGAUCHE LU %d:",(l_cellule[inter].id_sommet));
+			printf("CELLULEDROITE LU %d:",(l_cellule[inter_2].id_sommet));
+			inserer_liste((g->l_adj+0),&l_cellule[inter]);
+		*/
+		
+			
 
-		}
+		/*
+			printf("TEST\n");
+			printf("%d:",(l_cellule[inter_2].id_sommet));
+			inserer_liste((g->l_adj+0),&tata);
+			afficher_liste((g->l_adj+0));
+		*/
+		
 			
 		
-		
-		
+		//inserer_liste((g->l_adj+inter),&l_cellule[inter_2]);
 
 	}
 	else {
 		printf("Erreur lors de l'ouverture du fichier");
 	}
 
-		afficher_liste((g->l_adj+inter));
+
 };
 
 
