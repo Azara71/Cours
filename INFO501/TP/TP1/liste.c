@@ -34,7 +34,13 @@ void detruire_liste(liste_t *l)
 
 void inserer_liste(liste_t *l,cellule_t *t){
 	
+	if(l->tete!=NULL){
+	
+			printf("On a inseré %d dans : %d\n",l->tete->id_sommet,t->id_sommet);
+	}
+	
 	t->succ=l->tete;
+
 	
 
 	
@@ -42,7 +48,7 @@ void inserer_liste(liste_t *l,cellule_t *t){
 	if(l->tete==NULL){
 		
 		l->tete=t;
-		
+
 	
 	}
 	
@@ -51,6 +57,7 @@ void inserer_liste(liste_t *l,cellule_t *t){
 		l->tete->pred=t;	
 		l->tete=t;
 		t->pred=NULL;
+
 	
 }
 

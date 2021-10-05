@@ -40,29 +40,29 @@ cellule_t tata;
 			initialiser_cellule(&(l_cellule[i]),i);
 			inserer_liste((g->l_adj+i),&l_cellule[i]);
 			//printf("SOMMET:%d",(g->l_adj+i)->tete->id_sommet);	
-
+			printf("\n\n\n");
 		}
 
 		// Placement aux arêtes
-		fseek(fichier,17,SEEK_CUR);
+		fseek(fichier,18,SEEK_CUR);
 		fscanf(fichier,"%d",&liste_current);
 		inter=liste_current;
-		for(int j=0;j<11;j++){
+		for(int j=0;j<8;j++){
 		
 
 		
 			if(inter==liste_current){
-				
 				fscanf(fichier,"%d",&inter_2);
-				printf("inter2 : %d\n",inter_2);	
-				fseek(fichier,1,SEEK_CUR);
-				fscanf(fichier,"%d",&inter);
+				printf("%d-%d\n",inter,inter_2);
+				inserer_liste((g->l_adj+liste_current),&l_cellule[inter_2]);
 			}
 			else {
 				liste_current=inter;
-				printf("MA CURRENT LISTE EST %d",liste_current);
-			
+				fscanf(fichier,"%d",&inter_2);
+				//printf("%d-%d\n",(g->l_adj+liste_current)->tete->id_sommet,(l_cellule[inter_2])->id_sommet);
+				inserer_liste((g->l_adj+liste_current),&l_cellule[inter_2]);
 			}
+				fscanf(fichier,"%d",&inter);
 
 
 
@@ -76,6 +76,7 @@ cellule_t tata;
 			inserer_liste((g->l_adj+inter),&l_cellule[inter_2]);
 		*/
 		}
+		
 		
 		
 		
