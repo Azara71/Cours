@@ -1,6 +1,8 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "graphe.h"
 #include "liste.c"
+#include <string.h>
 
 
 
@@ -8,109 +10,67 @@ void initialiser_graphe(graphe_t *g,char a[]){
 
 FILE *fichier;
 fichier=fopen(a,"r");
-int inter;
-int inter_2;
-int liste_current;
-cellule_t l_cellule[12];
-cellule_t try_cellule[5];
-cellule_t tata;
+char ch[255];
+char findef[15]="FIN_DEF_ARETES\0";
+int i=0;
+int x=0;
+int y=0;
+cellule_t *ptr_cellule;
+
 	// Lecture du nb sommet
 	if (fichier!=NULL){
-		initialiser_cellule(&tata,5);
-		try_cellule[0]=tata;
+
 		//Lecture nb_sommet
-		fseek(fichier,10,SEEK_SET);
+		fscanf(fichier,"%s",ch);
+		printf("%s",ch);
 		fscanf(fichier,"%d",&g->nb_sommets);
-		printf("nb_sommet :%d",g->nb_sommets);
-		//Lecture oriente
-		fseek(fichier,10,SEEK_CUR);
+		printf("%d",g->nb_sommets);
+		fscanf(fichier,"%s",ch);
+		printf("%s",ch);
 		fscanf(fichier,"%d",&g->oriente);
-		printf("oriente:%d",g->oriente);
-		//Lecture value
-		fseek(fichier,7,SEEK_CUR);
+		printf("%d",g->oriente);
+		fscanf(fichier,"%s",ch);
+		printf("%s",ch);
 		fscanf(fichier,"%d",&g->value);
-		printf("value:%d",g->value);
-		
+		printf("%d",g->value);
 		g->l_adj=malloc(g->nb_sommets * sizeof(cellule_t));
+		fscanf(fichier,"%s",ch);
+		printf("%s\n",ch);
 		
-		// initialisation des n_listes et des n cellules
-		for(int i=0;i<g->nb_sommets;i++){
-			
-			initialiser_liste((g->l_adj+i));
-			initialiser_cellule(&(l_cellule[i]),i);
-			inserer_liste((g->l_adj+i),&l_cellule[i]);
-			//printf("SOMMET:%d",(g->l_adj+i)->tete->id_sommet);	
+		while(strcmp(ch,findef)!=0){
+		      	fscanf(fichier,"%s",ch);
+		      		if(strcmp(ch,findef)!=0){
+		      			x=atoi(ch);
+		      			fscanf(fichier,"%d",&y);
+		      			
+		      			
+		      			if(g->oriente==0){
+
+						ptr_cellule=malloc(sizeof(cellule_t));
+		      				initialiser_cellule(ptr_cellule,x);
+						inserer_liste(&g->l_adj[y],ptr_cellule);
+		      			
+		      			
+		      			
+		      			}
+		      			else if(g->oriente==1){
+
+		      				
+		      			}
+		      		//FAIRE UN MALLOC POUR CHAQUE VALEUR, CREER LA CELLULE, QU'ON INSERE DANS TAB[i];
+		      				
+		      			
+
+					
+		      		}
+		      	
+		      	
+
 
 		}
-
-		// Placement aux arêtes
-		fseek(fichier,17,SEEK_CUR);
-		fscanf(fichier,"%d",&liste_current);
-		inter=liste_current;
-		for(int j=0;j<11;j++){
-		
-
-		
-			if(inter==liste_current){
-				
-				fscanf(fichier,"%d",&inter_2);
-				printf("inter2 : %d\n",inter_2);	
-				fseek(fichier,1,SEEK_CUR);
-				fscanf(fichier,"%d",&inter);
-			}
-			else {
-				liste_current=inter;
-				printf("MA CURRENT LISTE EST %d",liste_current);
-			
-			}
-
-
-
-
-		/*
-			fscanf(fichier,"%d",&inter);
-			fseek(fichier,1,SEEK_CUR);
-			fscanf(fichier,"%d",&inter_2);
-			printf("\n%d",inter);
-			printf("%d",inter_2);
-			inserer_liste((g->l_adj+inter),&l_cellule[inter_2]);
-		*/
-		}
-		
-		
-		
-		
-		/*
-			fscanf(fichier,"%d",&inter);
-			fseek(fichier,1,SEEK_CUR);
-			fscanf(fichier,"%d",&inter_2);
-			printf("\n%d,%d\n",inter,inter_2);
-			printf("CELLULEGAUCHE LU %d:",(l_cellule[inter].id_sommet));
-			printf("CELLULEDROITE LU %d:",(l_cellule[inter_2].id_sommet));
-			inserer_liste((g->l_adj+0),&l_cellule[inter]);
-		*/
-		
-			
-
-		/*
-			printf("TEST\n");
-			printf("%d:",(l_cellule[inter_2].id_sommet));
-			inserer_liste((g->l_adj+0),&tata);
-			afficher_liste((g->l_adj+0));
-		*/
-		
-			
-		
-		//inserer_liste((g->l_adj+inter),&l_cellule[inter_2]);
-
-	}
-	else {
-		printf("Erreur lors de l'ouverture du fichier");
-	}
-
 
 };
-
+}
 
 void afficher_graphe(graphe_t mon_graphe){};
 void detruire_graphe(graphe_t mon_graphe){};
